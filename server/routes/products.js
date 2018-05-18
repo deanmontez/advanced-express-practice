@@ -1,20 +1,11 @@
 let express = require("express");
-let products = require("../products");
 let router = express.Router();
 
-router.get('/products', function(req, res) {
-  res.json(products);
-});
+let { list, show, create } = require("../controllers/products");
 
-router.get('/product/:id', function(req, res) {
-  const id = parseInt(req.params.id, 10);
-  res.json(products.find(product => product._id === id));
-});
-
-router.post('/products', function(req, res) {
-  const product = req.body;
-  products.push(product);
-  res.json(products);
-});
+// Requests
+router.get('/products', list);
+router.get('/product/:id', show);
+router.post('/products', create);
 
 module.exports = router;

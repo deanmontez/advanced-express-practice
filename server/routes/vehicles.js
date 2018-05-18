@@ -1,20 +1,11 @@
 let express = require("express");
-let vehicles = require("../vehicles");
 let router = express.Router();
 
-router.get('/vehicles', function(req, res) {
-  res.json(vehicles);
-});
+let { list, show, create } = require("../controllers/vehicles");
 
-router.get('/vehicle/:id', function(req, res) {
-  const id = parseInt(req.params.id, 10);
-  res.json(vehicles.find(vehicle => vehicle._id === id));
-});
-
-router.post('/vehicles', function(req, res) {
-  const vehicle = req.body;
-  vehicles.push(vehicle);
-  res.json(vehicles);
-});
+// Requests
+router.get('/vehicles', list);
+router.get('/vehicle/:id', show);
+router.post('/vehicles', create);
 
 module.exports = router;
