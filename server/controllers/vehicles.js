@@ -1,16 +1,28 @@
-let vehicles = require("../vehicles");
+let Vehicle = require("../models/vehicles");
 
 export function list(req, res) {
-  res.json(vehicles);
+  Vehicle.find().then((vehicles) => {
+    res.json(vehicles);
+  }).catch(err => console.log(err));
 }
 
 export function show(req, res) {
   const id = parseInt(req.params.id, 10);
-  res.json(vehicles.find(vehicle => vehicle._id === id));
+
+  Vehicle.findOne({ 'id': id }).then((vehicle) => {
+    res.json(vehicle);
+  }).catch(err => console.log(err));
 }
 
 export function create(req, res) {
-  const vehicle = req.body;
-  vehicles.push(vehicle);
-  res.json(vehicles);
+  Vehicle.count().then((i) => {
+    const vehicle = req.body;
+    vehicle.id = i + 1;
+
+    const newVehicle = new Vehicle(vehicle);
+
+    newVehicle.save().then((vehicle) => {
+      res.send(`New vehicle created: ${vehicle.body}`)
+    }).catch(err => console.log(err));
+  });
 }

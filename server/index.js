@@ -1,12 +1,12 @@
 let express = require("express");
 let bodyParser = require("body-parser");
-let products = require("./products");
-let vehicles = require("./vehicles");
-
+let mongoose = require("mongoose");
 let commentsRoute = require("./routes/comments");
 let contactsRoute = require("./routes/contacts");
 let vehiclesRoute = require("./routes/vehicles");
 let productsRoute = require("./routes/products");
+
+mongoose.connect("mongodb://admin:password@ds123500.mlab.com:23500/advanced-express-practice");
 
 const app = express();
 const port = process.env.PORT || 3001;
